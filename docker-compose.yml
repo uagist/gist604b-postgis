@@ -1,0 +1,10 @@
+services:
+  postgres:
+    image: postgis/postgis:15-3.3
+    container_name: postgis-tutorial-postgres
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
