@@ -12,18 +12,11 @@
   "customizations": {
     "vscode": {
       "extensions": [
-        "ms-python.python",
-        "ms-python.pylance",
-        "ms-python.black-formatter",
-        "charliermarsh.ruff",
         "ms-vscode.vscode-json",
         "redhat.vscode-yaml",
         "ms-azuretools.vscode-docker",
         "ckolkman.vscode-postgres"
       ],
-      "settings": {
-        "python.defaultInterpreterPath": "${containerWorkspaceFolder}/.venv/bin/python"
-      }
     }
   },
 
@@ -35,8 +28,6 @@
       "onAutoForward": "notify"
     }
   },
-
-  "postCreateCommand": "pip install uv && uv sync",
-
+  
   "remoteUser": "vscode"
 }
