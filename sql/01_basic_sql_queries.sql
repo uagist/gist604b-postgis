@@ -1,4 +1,4 @@
--- Basic SQL Queries
+-- Part 1: Basic SQL Queries
 -- Table: public.nyc_census_blocks
 
 -- Exercise 1: What is the Asian population of the City of New York?
