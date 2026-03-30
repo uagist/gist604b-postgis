@@ -1,4 +1,4 @@
--- Part 2: Spatial Geometry Queries
+-- Part 2: Geometry Queries
 
 -- Exercise 1: What is the area of the 'New Brighton' neighborhood?
 -- Expected output: one row with the area of New Brighton in square meters
