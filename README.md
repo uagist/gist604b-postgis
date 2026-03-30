@@ -1,4 +1,4 @@
-# GIST 604B – PostGIS Spatial SQL
+# GIST 604B – PostGIS
 
 Repository for working with spatial data using PostgreSQL and PostGIS.
 
