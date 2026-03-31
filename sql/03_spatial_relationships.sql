@@ -1,44 +1,62 @@
 -- Part 3: Spatial Relationships Queries
 
--- Exercise 1: What is the geometry value for the street named 'S Oxford St'?
+-- Exercise 1: What is the geometry value for the street named 'Queensboro Brg'?
 -- Expected output: one row with the geometry representation
+-- queensboro
+-- MULTILINESTRING((588998.4638775643 4511869.804080361,589052.2228744245 4511839.352402115,589368.3007369939 4511660.247053391))
+-- Hint: Use ST_AsText() on the geom column in the nyc_streets table
+-- Hint: Use queensboro as the output alias
+-- Hint: Filter rows where name = 'Queensboro Brg'
 
--- TODO: Write a SELECT statement to retrieve the geometry of 'S Oxford St'
--- Hint: Use ST_AsText(geom)
--- Hint: Use the nyc_streets table
--- Hint: Filter rows where name = 'S Oxford St'
--- Hint: Use s_oxford_st_geometry as the output alias
-
-
-
--- Exercise 2: What neighborhood and borough is S Oxford St in?
--- Expected output: one row with street name, neighborhood name, and borough
-
--- TODO: Write a SELECT statement to find the neighborhood and borough for 'S Oxford St'
--- Hint: Use the nyc_streets and nyc_neighborhoods tables
--- Hint: Use ST_Intersects(s.geom, n.geom)
--- Hint: Filter rows where s.name = 'S Oxford St'
--- Hint: Use table aliases (s, n)
+-- TODO: Write your query below
 
 
 
--- Exercise 3: What streets does S Oxford St join with?
+
+-- Exercise 2: What neighborhood and borough is Queensboro Brg in?
+-- Expected output: one row with neighborhood name and borough
+-- neighborhood              borough
+-- Astoria-Long Island City  Queens
+
+-- Hint: Use the name and boroname columns from the nyc_neighborhoods table
+-- Hint: Use neighborhood and borough as the output aliases, respectively
+-- Hint: Use ST_Intersects(geom, ...) in the WHERE clause
+-- Hint: Use the SQL query from Exercise 1 to get the geometry of Queensboro Brg in the WHERE clause
+
+-- TODO: Write your query below
+
+
+
+
+-- Exercise 3: What streets does Queensboro Brg intersect with?
 -- Expected output: multiple rows with intersecting street names
+--    name
+-- 1	21st St
+-- 2	23rd St
+-- 3	Queensborough Plaza
 
--- TODO: Write a SELECT statement to find streets that intersect with 'S Oxford St'
--- Hint: Use the nyc_streets table twice (self-join)
--- Hint: Use ST_Intersects(s1.geom, s2.geom)
--- Hint: Filter where s1.name = 'S Oxford St'
--- Hint: Exclude the same street using s1.gid != s2.gid
+-- Hint: Use the name column from the nyc_streets table
+-- Hint: Use ST_Intersects(geom, ...) in the WHERE clause
+-- Hint: Use the SQL query from Exercise 1 to get the geometry of Queensboro Brg in the WHERE clause
+-- Hint: Exclude the same street using name != 'Queensboro Brg' in the WHERE clause
+-- Hint: Exclude NULL street names using name IS NOT NULL in the WHERE clause
+
+-- TODO: Write your query below
 
 
 
--- Exercise 4: Approximately how many people live within 50 meters of S Oxford St?
+
+-- Exercise 4: Approximately how many people live within 50 meters of Queensboro Brg?
 -- Expected output: one row with total population
+-- total_population
+-- 1799
 
--- TODO: Write a SELECT statement to calculate population within 50 meters of 'S Oxford St'
--- Hint: Use the nyc_census_blocks and nyc_streets tables
--- Hint: Use ST_DWithin(cb.geom, s.geom, 50)
--- Hint: Filter where s.name = 'S Oxford St'
--- Hint: Use SUM(total_pop)
--- Hint: Use population_near_s_oxford_st as the output alias
+-- Hint: Use SUM() on the popn_total column in the nyc_census_blocks table
+-- Hint: Use total_population as the output alias
+-- Hint: Use ST_DWithin(geom, ..., 50) in the WHERE clause
+-- Hint: Use the SQL query from Exercise 1 to get the geometry of Queensboro Brg in the WHERE clause
+
+-- TODO: Write your query below
+
+
+
