@@ -45,6 +45,8 @@
 
 -- Exercise 3: How many people live in the Financial District?
 -- Expected output: one row with total population
+-- total_population
+-- 34807
 
 -- Hint: Use SUM() on the popn_total column in the nyc_census_blocks table
 -- Hint: Use aliases cb for nyc_census_blocks and n for nyc_neighborhoods
