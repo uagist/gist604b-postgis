@@ -47,3 +47,20 @@
 
 
 
+
+-- Exercise 4: What is the average population per census block in each borough?
+-- Expected output: one row per borough with borough name and average population
+--   boroname       avg_population
+-- 1 Brooklyn       ...
+-- 2 Manhattan      ...
+-- 3 Queens         ...
+-- 4 Staten Island  ...
+-- 5 The Bronx      ...
+
+-- Hint: Use AVG() on the popn_total column
+-- Hint: Use avg_population as the output alias
+-- Hint: Use the nyc_census_blocks table
+-- Hint: GROUP BY boroname
+-- Hint: Use ORDER BY avg_population DESC for readability
+
+-- TODO: Write your query below
