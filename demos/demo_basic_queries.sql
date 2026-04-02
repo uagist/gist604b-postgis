@@ -10,7 +10,7 @@ SELECT name FROM nyc_neighborhoods;
 SELECT name, boroname FROM nyc_neighborhoods;
 
 -- SELECT DISTINCT - select unique values
-SELECT DISTINCT name
+SELECT DISTINCT boroname
 FROM nyc_neighborhoods;
 
 -- ORDER BY - sort ascending/descending
