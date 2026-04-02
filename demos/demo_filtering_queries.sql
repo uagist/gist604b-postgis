@@ -1,63 +1,63 @@
 -- WHERE clause - filter records based on conditions
--- All records in the borough Staten Island
+-- All subway stations in the borough Staten Island
 SELECT *
-FROM nyc_neighborhoods
-WHERE boroname = 'Staten Island';
+FROM nyc_subway_stations
+WHERE borough = 'Staten Island';
 
--- Records that are in either Manhattan or Queens boroughs
+-- Subway Stations that are in either Manhattan or Queens boroughs
 SELECT *
-FROM nyc_neighborhoods
-WHERE boroname IN ('Manhattan', 'Queens');
+FROM nyc_subway_stations
+WHERE borough IN ('Manhattan', 'Queens');
   
--- All records with NULL values in the boroname column
+-- All records with NULL values in the alt_name column
 SELECT *
-FROM nyc_neighborhoods
-WHERE boroname IS NULL;
+FROM nyc_subway_stations
+WHERE alt_name IS NULL;
 
 -- All non-NULL records
 SELECT *
-FROM nyc_neighborhoods
-WHERE boroname IS NOT NULL;
+FROM nyc_subway_stations
+WHERE alt_name IS NOT NULL;
 
 -- Borough names that start with the letter 'T'
 SELECT *
-FROM nyc_neighborhoods
-WHERE boroname LIKE 'T%';
+FROM nyc_subway_stations
+WHERE borough LIKE 'B%';
 
 -- Borough names that end with the letter 'n'
 SELECT *
-FROM nyc_neighborhoods
-WHERE boroname LIKE '%n';
+FROM nyc_subway_stations
+WHERE borough LIKE '%n';
 
--- Street names that contain the word 'Ave'
+-- Cross street names that contain the word 'Ave'
 SELECT *
-FROM nyc_streets
-WHERE name LIKE '%Ave%';
+FROM nyc_subway_stations
+WHERE cross_st LIKE '%Ave%';
 
--- OR: Streets that contain 'Ave' or 'St'
+-- OR: Cross streets that contain 'Ave' or 'St'
 SELECT *
-FROM nyc_streets
-WHERE name LIKE '%Ave%'
-   OR name LIKE '%St%';
+FROM nyc_subway_stations
+WHERE cross_st LIKE '%Ave%'
+   OR cross_st LIKE '%St%';
 
--- AND: Neighborhoods in Manhattan that start with 'Upper'
+-- AND: Subway stations in Manhattan that have an "Ave" cross street
 SELECT *
-FROM nyc_neighborhoods
-WHERE boroname = 'Manhattan'
-  AND name LIKE 'Upper%';
+FROM nyc_subway_stations
+WHERE borough = 'Manhattan'
+  AND cross_st LIKE '%Ave%';
 
--- NOT: Neighborhoods not in Brooklyn
+-- NOT: Subway Stations not in Brooklyn
 SELECT *
-FROM nyc_neighborhoods
-WHERE NOT boroname = 'Brooklyn';
+FROM nyc_subway_stations
+WHERE NOT borough = 'Brooklyn';
 
   -- NOT: Alternative
 SELECT *
-FROM nyc_neighborhoods
-WHERE boroname != 'Brooklyn';
+FROM nyc_subway_stations
+WHERE borough != 'Brooklyn';
 
--- COMBINED AND/OR: Streets that contain 'Ave' in Manhattan or Queens
+-- COMBINED AND/OR: Cross streets that contain 'Ave' in Manhattan or Queens
 SELECT *
-FROM nyc_streets
-WHERE name LIKE '%Ave%'
-  AND (boroname = 'Manhattan' OR boroname = 'Queens');
+FROM nyc_subway_stations
+WHERE cross_st LIKE '%Ave%'
+  AND (borough = 'Manhattan' OR borough = 'Queens');
