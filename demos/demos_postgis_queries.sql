@@ -4,88 +4,95 @@
 SELECT 
     ST_AsText(geom) AS geometry_wkt
 FROM nyc_neighborhoods
-WHERE name = 'Soho';
+WHERE name = 'Tribeca';
 
 -- ST_AsGeoJSON(): Return the geometry as GeoJSON
 SELECT 
     ST_AsGeoJSON(geom) AS geometry_geojson
 FROM nyc_neighborhoods
-WHERE name = 'Soho';
+WHERE name = 'Tribeca';
 
 -- ST_GeometryType(): Check the geometry type
+SELECT 
+    ST_GeometryType(geom) AS geometry_type
+FROM nyc_streets;
+
 SELECT 
     name,
     ST_GeometryType(geom) AS geometry_type
 FROM nyc_neighborhoods
-WHERE name IN ('Soho', 'Coney Island');
+WHERE name = 'Tribeca';
 
--- ST_NumGeometries(): Count how many geometries are inside a multipart geometry
-SELECT 
-    name,
-    ST_NumGeometries(geom) AS num_geometries
-FROM nyc_neighborhoods
-WHERE name = 'Coney Island';
 
 -- ST_NumInteriorRings(): Count interior rings (holes) in polygons
 SELECT 
     ST_NumInteriorRings(geom) AS num_holes
-FROM nyc_census_blocks
+FROM nyc_neighborhoods
 LIMIT 5;
 
 -- ST_Area(): Area of one neighborhood in square meters
 SELECT 
     ST_Area(geom) AS area_sq_m
 FROM nyc_neighborhoods
-WHERE name = 'New Brighton';
+WHERE name = 'Tribeca';
 
 -- ST_Length(): Length of one street in meters
 SELECT 
     ST_Length(geom) AS length_meters
 FROM nyc_streets
-WHERE name = 'Broadway'
-LIMIT 5;
+WHERE name = 'Broadway';
+
+-- Total length of all street segments
+SELECT 
+    SUM(ST_Length(geom)) AS total_length_meters
+FROM nyc_streets
+WHERE name = 'Broadway';
 
 -- Convert length from meters to kilometers
 SELECT 
-    ST_Length(geom) / 1000.0 AS length_miles
+    SUM(ST_Length(geom)) / 1000.0 AS total_length_km
 FROM nyc_streets
-WHERE name = 'Broadway'
-LIMIT 5;
+WHERE name = 'Broadway';
 
--- Total length of all streets in NYC
+-- ST_NumGeometries(): Count how many geometry parts each Staten Island neighborhood contains
 SELECT 
-    SUM(ST_Length(geom)) AS total_length_meters
-FROM nyc_streets;
-
--- ST_Union(): Merge all Soho neighborhood polygons into one geometry
-SELECT 
-    ST_Union(geom) AS bronx_geom
+    name,
+    ST_NumGeometries(geom) AS num_geometries
 FROM nyc_neighborhoods
-WHERE boroname = 'Soho';
+WHERE boroname = 'Staten Island';
 
--- Measure the area of the merged Soho geometry
+-- ST_Union() + ST_Area(): Merge Staten Island neighborhoods and measure total area
 SELECT 
-    ST_Area(ST_Union(geom)) AS bronx_area_sq_m
+    ST_Area(ST_Union(geom)) AS staten_island_area_sq_m
 FROM nyc_neighborhoods
-WHERE boroname = 'Soho';
+WHERE boroname = 'Staten Island';
 
 -- Spatial Relationships
 
--- Find neighborhoods that intersect a specific street
+-- Find subway stations that intersect a specific neighborhood
 SELECT 
-    n.name,
-    n.boroname
-FROM nyc_neighborhoods AS n
+    ss.name,
+    ss.routes
+FROM nyc_subway_stations AS ss
 WHERE ST_Intersects(
-    n.geom,
+    ss.geom,
     (
         SELECT geom
-        FROM nyc_streets
-        WHERE name = 'Queensboro Brg'
+        FROM nyc_neighborhoods
+        WHERE name = 'Financial District'
     )
 );
 
--- Sum the population within 50 meters of Queensboro Brg
+-- Spatial Join: Find subway stations that intersect a specific neighborhood
+SELECT 
+    ss.name,
+    ss.routes
+FROM nyc_subway_stations AS ss
+JOIN nyc_neighborhoods AS n
+    ON ST_Intersects(ss.geom, n.geom)
+WHERE n.name = 'Financial District';
+
+-- Sum the population within 50 meters of a subway station
 SELECT 
     SUM(popn_total) AS total_population
 FROM nyc_census_blocks AS cb
@@ -93,30 +100,31 @@ WHERE ST_DWithin(
     cb.geom,
     (
         SELECT geom
-        FROM nyc_streets
-        WHERE name = 'Queensboro Brg'
+        FROM nyc_subway_stations
+        WHERE name = 'Brooklyn Bridge'
     ),
     50
 );
 
--- Spatial Join 
-
--- Subway stations located inside East Village
+-- Sum the population within 50 meters of a subway station
+-- Does not work - ERROR: more than one row returned by a subquery
 SELECT 
-    ss.name,
-    ss.routes
-FROM nyc_subway_stations AS ss
-JOIN nyc_neighborhoods AS n
-    ON ST_Intersects(ss.geom, n.geom)
-WHERE n.name = 'East Village';
-
--- Population by neighborhood for two neighborhoods
-SELECT 
-    n.name,
-    SUM(cb.popn_total) AS total_population
+    SUM(popn_total) AS total_population
 FROM nyc_census_blocks AS cb
-JOIN nyc_neighborhoods AS n
-    ON ST_Intersects(cb.geom, n.geom)
-WHERE n.name IN ('East Village', 'West Village')
-GROUP BY n.name
-ORDER BY n.name;
+WHERE ST_DWithin(
+    cb.geom,
+    (
+        SELECT geom
+        FROM nyc_subway_stations
+        WHERE name = 'Grand Central'
+    ),
+    50
+);
+
+-- Spatial Join: Sum the population within 50 meters of a subway station
+SELECT 
+    SUM(popn_total) AS total_population
+FROM nyc_census_blocks AS cb
+JOIN nyc_subway_stations AS ss
+    ON ST_DWithin(cb.geom, ss.geom, 50)
+WHERE ss.name = 'Grand Central';
