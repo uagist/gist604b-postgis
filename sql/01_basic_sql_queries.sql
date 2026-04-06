@@ -51,11 +51,11 @@
 -- Exercise 4: What is the average population per census block in each borough?
 -- Expected output: one row per borough with borough name and average population
 --   boroname       avg_population
--- 1 Brooklyn       ...
--- 2 Manhattan      ...
--- 3 Queens         ...
--- 4 Staten Island  ...
--- 5 The Bronx      ...
+-- 1 Manhattan      411.2741182572614
+-- 2 Brooklyn       258.6965502995249
+-- 3 The Bronx      253.45068618481244
+-- 4 Queens         151.18754236139353
+-- 5 Staten Island  93.0573754218781
 
 -- Hint: Use AVG() on the popn_total column
 -- Hint: Use avg_population as the output alias
