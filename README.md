@@ -15,8 +15,10 @@ Repository for working with spatial data using PostgreSQL and PostGIS.
     │   ├── 03_spatial_relationships.sql
     │   └── 04_spatial_joins.sql
     ├── demos/
-    │   ├── demo_basic_sql.sql
-    │   └── demo_postgis_sql.sql
+    │   ├── demo_aggregation_queries.sql
+    │   ├── demo_basic_queries.sql
+    │   ├── demo_filtering_queries.sql
+    │   └── demo_postgis_queries.sql
     └── docker-compose.yml
 
 ## Notes
